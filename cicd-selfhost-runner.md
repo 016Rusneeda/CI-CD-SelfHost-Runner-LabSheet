@@ -1185,7 +1185,9 @@ watch -n 10 ./monitor.sh
 <details>
 <summary>คำตอบ</summary>
 
- Pull-based Model ของ Self-Hosted Runner คือรูปแบบการทำงานที่ตัว Runner เป็นฝ่าย ดึง (Pull) งานจาก GitHub เอง โดยจะทำการ Polling ผ่าน HTTPS ไปยัง GitHub API เป็นระยะเพื่อตรวจสอบว่ามีงาน (Job) ใหม่ใน Job Queue หรือไม่ หากพบงานที่ตรงกับคุณสมบัติและ label ของ Runner ระบบจะส่งรายละเอียดของงานกลับมาให้ Runner ทำการประมวลผล
+ คือ รูปแบบการทำงานที่ ฝั่งผู้รับงาน (Runner) เป็นฝ่ายดึงงานเองจากศูนย์กลาง (GitHub) ไม่ใช่ให้ศูนย์กลางส่งงานเข้ามา
+ในบริบทของ GitHub Actions – Self-Hosted Runner Runner จะเชื่อมต่อออกไปหา GitHub เอง (Outbound)
+คอยถามเป็นระยะ ๆ ว่า“มีงานให้ฉันทำไหม?” ถ้ามีงาน GitHub จะส่งรายละเอียดงานกลับมา ถ้าไม่มีงาน Runner ก็รอต่อ (Polling / Long-Polling)
  ข้อดี
 - Runner เป็นฝ่าย ดึง (Pull) งานจาก GitHub ไม่ใช่ GitHub ส่ง (Push) งานมา
 - Runner ทำการ Polling (ตรวจสอบเป็นระยะ) ไปที่ GitHub API
@@ -1200,8 +1202,8 @@ watch -n 10 ./monitor.sh
 <details>
 <summary>คำตอบ</summary>
 
- เขียนคำตอบลงในช่องนี้
-
+ Pull-based ปลอดภัยกว่า Push-based เพราะ Runner เป็นฝ่ายเชื่อมต่อออกไปหา GitHub เองผ่าน HTTPS โดยไม่ต้องเปิดพอร์ตให้บุคคลภายนอกเข้าถึง จึงลดความเสี่ยงด้านความปลอดภัยของระบบ
+*** Push-based GitHub → เชื่อมต่อเข้ามาที่ Runner โดยตรง ต้องเปิดพอร์ตและตั้งค่า Firewall เสี่ยงต่อการถูกโจมตีจากภายนอก
 
 </details>
 
